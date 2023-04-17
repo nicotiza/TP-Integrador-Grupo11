@@ -48,6 +48,8 @@ public class Partido {
 
 
     public ResultadoEnum resultado (Equipo equipo){
+
+
         return null;
     }
 }
