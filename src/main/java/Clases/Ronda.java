@@ -26,6 +26,6 @@ public class Ronda {
     }
 
     public int puntos(){
-        return 0;
+    return 0;
     }
 }

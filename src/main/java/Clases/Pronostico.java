@@ -1,4 +1,7 @@
 package Clases;
+import Clases.Partido;
+
+import java.util.List;
 
 public class Pronostico {
     private Partido partido;
@@ -9,6 +12,16 @@ public class Pronostico {
         this.partido = partido;
         this.equipo = equipo;
         this.resultado = resultado;
+    }
+
+    public int puntos() {
+        int p=0;
+
+        if(partido.resultado(equipo)==resultado) {
+            p=1;
+        }
+
+        return p;
     }
 
     public Partido getPartido() {
@@ -35,5 +48,5 @@ public class Pronostico {
         this.resultado = resultado;
     }
 
-    public int puntos(){return 0;}
+
 }
