@@ -1,6 +1,7 @@
 package Util;
 
 import Clases.*;
+import Clases.Partido;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -59,7 +60,7 @@ public class ArchivoUtil {
 
 
             //Evitar la primera línea que contiene los títulos de las columnas.
-            if (!resultadosLinea[0].equals("Equipo_1")) {
+            if (!resultadosLinea[0].equals("EQUIPO_1")) {
                 equipo1 = new Equipo(resultadosLinea[0].trim(), "");        //La primer posición del nuevo array "resultadosLinea" se guarda en la variable equipo1. Sobreentendiendo que así es como está la estructura del archivo.
                 goles1 = parseInt(resultadosLinea[1]);                               //Los goles del primer equipo se guarda en la variable goles1.
                 equipo2 = new Equipo(resultadosLinea[3].trim(), "");        //El equipo 2 se guarda en la lista de equipos
@@ -77,38 +78,65 @@ public class ArchivoUtil {
         return partidos;
     }
 
-    public static Partido buscarPartido(List<Partido> partidos,Equipo team1, Equipo team2) {
+    public static Partido buscarPartido(List<Partido> partidos,Equipo equipo1, Equipo equipo2) {
         Partido aux= new Partido();
-        for(Partido partido: partidos) {
-            if((partido.getEquipo1().equals(team1) || partido.getEquipo2().equals(team1))&&(partido.getEquipo1().equals(team2) || partido.getEquipo2().equals(team2))) {
-                aux=partido;
+
+        for(int i=0; i<partidos.size();i++){
+            String auxEQ1 = partidos.get(i).getEquipo1().getNombreEquipo();
+            String auxEQ2 = partidos.get(i).getEquipo2().getNombreEquipo();
+            String equipo_1 = equipo1.getNombreEquipo();
+            String equipo_2 = equipo2.getNombreEquipo();
+
+            if( auxEQ1.equals(equipo_1) && auxEQ2.equals(equipo_2) ){
+                aux.setEquipo1(partidos.get(i).getEquipo1());
+                aux.setEquipo2(partidos.get(i).getEquipo2());
+                aux.setGolesEquipo1(partidos.get(i).getGolesEquipo1());
+                aux.setGolesEquipo2(partidos.get(i).getGolesEquipo2());
             }
         }
 
+        //El FOR siguiente, es el FOR EACH que deberíamos usar. Reemplaza el código del FOR de arriba.
+
+        /*for(Partido list: partidos) {
+
+            String auxEQ1 = list.getEquipo1().getNombreEquipo();
+            String auxEQ2 = list.getEquipo2().getNombreEquipo();
+            String equipo_1 = equipo1.getNombreEquipo();
+            String equipo_2 = equipo2.getNombreEquipo();
+
+            if (
+                    (auxEQ1.equals(equipo_1) || auxEQ1.equals(equipo_2))
+                    &&
+                    (auxEQ2.equals(equipo_1) || auxEQ2.equals(equipo_2))
+            ){
+                aux=list;
+            }
+        }*/
         return aux;
     }
+
     public static List<Pronostico> getPronostico(List<Partido> partidos) throws IOException{
         List<Pronostico> pronosticos = new ArrayList<>();
         for (String linea : Files.readAllLines(Paths.get(urlPronosticoCSV))) {
             String[] pronosticoLinea = linea.split(",");
 
-            Equipo equipo = null;
+            Equipo equipo1 = null;
             ResultadoEnum resultado = null;
 
             if (linea.contains("X")){
                 if (pronosticoLinea[1].equals("X")){
-                    equipo = new Equipo(pronosticoLinea[0],"");
+                    equipo1 = new Equipo(pronosticoLinea[0],"");
                     resultado = GANADOR;
                 } else if (pronosticoLinea[2].equals("X")) {
-                    equipo = new Equipo(pronosticoLinea[0],"");
+                    equipo1 = new Equipo(pronosticoLinea[0],"");
                     resultado = EMPATE;
                 } else if (pronosticoLinea[3].equals("X")){
-                    equipo = new Equipo(pronosticoLinea[0],"");
+                    equipo1 = new Equipo(pronosticoLinea[0],"");
                     resultado = PERDEDOR;
                 }
             }
             Equipo equipo2 = new Equipo(pronosticoLinea[4],"");
-            Pronostico pronostico = new Pronostico(buscarPartido(partidos,equipo,equipo2),equipo,resultado);
+            Pronostico pronostico = new Pronostico(buscarPartido(partidos,equipo1,equipo2),equipo1,resultado);
             pronosticos.add(pronostico);
         }
         return pronosticos;

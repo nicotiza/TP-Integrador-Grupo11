@@ -53,7 +53,7 @@ public class Partido {
 
     public ResultadoEnum resultado(Equipo equipo) {
         ResultadoEnum res=null;
-        if(equipo==equipo1) {
+        if(equipo.getNombreEquipo().equals(equipo1.getNombreEquipo())) {
             if(golesEquipo1>golesEquipo2) {
                 res= ResultadoEnum.GANADOR;
             }else if(golesEquipo1==golesEquipo2) {
@@ -61,7 +61,7 @@ public class Partido {
             }else {
                 res= ResultadoEnum.PERDEDOR;
             }
-        }else if(equipo==equipo2) {
+        }else if(equipo.getNombreEquipo().equals(equipo2.getNombreEquipo())) {
             if(golesEquipo1<golesEquipo2) {
                 res= ResultadoEnum.GANADOR;
             }else if(golesEquipo1==golesEquipo2) {
