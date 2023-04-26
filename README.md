@@ -7,3 +7,4 @@ Integrantes:
 Renata Bratik
 Gabriel Piccone
 Nicolás Tizzano
+Javier Soteras
