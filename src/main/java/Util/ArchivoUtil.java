@@ -51,6 +51,7 @@ public class ArchivoUtil {
         for (String linea : Files.readAllLines(Paths.get(urlResultadosCSV))) {
             String[] resultadosLinea = linea.split(",");
 
+
             Equipo equipo1 = null;
             int     goles1 = 0;
             Equipo equipo2 = null;
