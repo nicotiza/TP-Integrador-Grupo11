@@ -1,8 +1,9 @@
-package org.example;
+package org.example; //Programa de Pronóstico Deportivo - Mundialito.
 
-import Clases.Equipo;
 import Clases.Pronostico;
 import Clases.Partido;
+import Dao.pronosticoDAO;
+import Dao.pronosticoDAOImpl;
 import Util.ArchivoUtil;
 
 import java.io.IOException;
@@ -20,10 +21,22 @@ public class Main {
         ArchivoUtil archivo = new ArchivoUtil(archivo1,archivo2);
         List<Partido> partidos = archivo.getResultados(); // == retorna Lista de PARTIDOS
         List<Pronostico> pronosticos = archivo.getPronostico(partidos); //== retorna Lista de PRONOSTICOS
+
+        pronosticoDAO pronosDAO = new pronosticoDAOImpl();
+        List<Pronostico> pronosticosDB = pronosDAO.obtenerTodos(partidos);
+
+
         int contPuntos=0;
-        for(Pronostico p: pronosticos) {
+        for(Pronostico p: pronosticosDB) {
             contPuntos+=p.puntos();
         }
-        System.out.println("Puntaje= "+contPuntos);
+        System.out.println("Puntaje desde la Base de Datos= "+contPuntos);
+
+        int contPuntos1=0;
+        for(Pronostico p: pronosticos) {
+            contPuntos1+=p.puntos();
+        }
+        System.out.println("Puntaje desde el Archivo.CSV= "+contPuntos1);
+
     }
 }
